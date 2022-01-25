@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Universal Viewer</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/universalviewer@next/dist/uv.css"
+    />
+    <script
+      type="application/javascript"
+      src="https://cdn.jsdelivr.net/npm/universalviewer@next/dist/umd/UV.js"
+    ></script>
+    <style>
+      #uv {
+        width: 924px;
+        height: 668px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="uv" id="uv"></div>
+
+    <ul id="annotation-list"></ul>
+
+    <script>
+      (function () {
+        let uv;
+
+        const annotationsJson =
+          "https://exhibit-staging.vercel.app/api/exhibits/tPEDfv5mRAFgpFQZodJh";
+
+        const annotationList = document.getElementById("annotation-list");
+
+        function handleAnnotationClick(e) {
+          console.log(e);
+        }
+
+        fetch(annotationsJson).then((res) => {
+          const data = res.json().then((data) => {
+            data.annotations
+              .filter((anno) => anno.motivation === "framing")
+              .forEach((anno) => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.innerHTML = anno.bodyValue;
+                a.onclick = handleAnnotationClick;
+                li.appendChild(a);
+                annotationList.appendChild(li);
+              });
+          });
+        });
+
+        const data = {
+          manifest: "https://wellcomelibrary.org/iiif/b18035723/manifest",
+          embedded: true // needed for codesandbox frame
+        };
+
+        uv = UV.init("uv", data);
+      })();
+    </script>
+  </body>
+</html>
