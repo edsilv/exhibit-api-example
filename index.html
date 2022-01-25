@@ -13,12 +13,7 @@
       type="application/javascript"
       src="https://cdn.jsdelivr.net/npm/universalviewer@next/dist/umd/UV.js"
     ></script>
-    <style>
-      #uv {
-        width: 924px;
-        height: 668px;
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="uv" id="uv"></div>
@@ -35,6 +30,7 @@
         const annotationList = document.getElementById("annotation-list");
 
         function handleAnnotationClick(e) {
+          e.preventDefault();
           const anno = annotations.find(a => a.id === e.currentTarget.dataset.annoId);
           manifest = anno.partOf;
           target = anno.target;
@@ -72,6 +68,16 @@
               manifest: manifest,
               target: target,
             });
+          });
+
+          uv.on("configure", function ({ config, cb }) {
+            cb(
+              new Promise(function (resolve) {
+                fetch("uv-config.json").then(function (response) {
+                  resolve(response.json());
+                });
+              })
+            );
           });
         }
 

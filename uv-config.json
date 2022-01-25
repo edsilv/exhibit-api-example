@@ -1,0 +1,11 @@
+{
+  "options": {
+    "headerPanelEnabled": false,
+    "leftPanelEnabled": false,
+    "rightPanelEnabled": false,
+    "footerPanelEnabled": false
+  },
+  "modules": {
+    
+  }
+}

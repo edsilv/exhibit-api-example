@@ -1,0 +1,29 @@
+.uv {
+  width: 924px;
+  height: 668px;
+}
+
+.uv .mobileFooterPanel {
+  display: none !important;
+}
+
+.uv h1 {
+  display: none !important;
+}
+
+.uv .mainPanel {
+  margin: 0px !important;
+  padding: 0 !important;
+}
+
+.uv .mainPanel .centerPanel .attribution {
+  display: none !important;
+}
+
+.uv .mainPanel .centerPanel .navigator {
+  display: none !important;
+}
+
+.uv .mainPanel .centerPanel .content .viewer {
+  margin: 0 !important;
+}
