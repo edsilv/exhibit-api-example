@@ -1,2 +1,3 @@
 # exhibit-api-example
-Created with CodeSandbox
+
+https://codesandbox.io/s/github/edsilv/exhibit-api-example/
