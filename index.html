@@ -27,38 +27,61 @@
 
     <script>
       (function () {
-        let uv;
+        let uv, annotations, manifest, target;
 
         const annotationsJson =
-          "https://exhibit-staging.vercel.app/api/exhibits/tPEDfv5mRAFgpFQZodJh";
+          "https://exhibit-staging.vercel.app/api/exhibits/G6CDVpyabbDkZeXHt4Ha";
 
         const annotationList = document.getElementById("annotation-list");
 
         function handleAnnotationClick(e) {
-          console.log(e);
+          const anno = annotations.find(a => a.id === e.currentTarget.dataset.annoId);
+          manifest = anno.partOf;
+          target = anno.target;
+
+          uv.set({
+            manifest: manifest,
+            target: target,
+          });
+        }
+
+        function init() {
+
+          annotations.forEach((anno) => {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.dataset.annoId = anno.id;
+            a.href = "#";
+            a.innerHTML = anno.bodyValue;
+            a.onclick = handleAnnotationClick;
+            li.appendChild(a);
+            annotationList.appendChild(li);
+          });
+
+          manifest = annotations[0].partOf;
+          target = annotations[0].target;
+
+          uv = UV.init("uv", {
+            manifest: manifest,
+            target: target,
+            embedded: true // needed for codesandbox frame
+          });
+
+          uv.on("load", () => {
+            uv.set({
+              manifest: manifest,
+              target: target,
+            });
+          });
         }
 
         fetch(annotationsJson).then((res) => {
           const data = res.json().then((data) => {
-            data.annotations
-              .filter((anno) => anno.motivation === "framing")
-              .forEach((anno) => {
-                const li = document.createElement("li");
-                const a = document.createElement("a");
-                a.innerHTML = anno.bodyValue;
-                a.onclick = handleAnnotationClick;
-                li.appendChild(a);
-                annotationList.appendChild(li);
-              });
+            annotations = data.annotations
+              .filter((anno) => anno.motivation === "framing");
+            init();
           });
         });
-
-        const data = {
-          manifest: "https://wellcomelibrary.org/iiif/b18035723/manifest",
-          embedded: true // needed for codesandbox frame
-        };
-
-        uv = UV.init("uv", data);
       })();
     </script>
   </body>
