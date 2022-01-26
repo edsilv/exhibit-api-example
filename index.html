@@ -47,7 +47,7 @@
             const li = document.createElement("li");
             const a = document.createElement("a");
             a.dataset.annoId = anno.id;
-            a.href = "#";
+            a.href = `#${anno.id}`;
             a.innerHTML = anno.bodyValue;
             a.onclick = handleAnnotationClick;
             li.appendChild(a);
