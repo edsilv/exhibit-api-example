@@ -25,13 +25,15 @@
         let uv, annotations, manifest, target;
 
         const annotationsJson =
-          "https://exhibit-staging.vercel.app/api/exhibits/G6CDVpyabbDkZeXHt4Ha";
+          "https://www.exhibit.so/api/exhibits/Zmtdg3cwREXzNGCuHgmm";
 
         const annotationList = document.getElementById("annotation-list");
 
         function handleAnnotationClick(e) {
           e.preventDefault();
-          const anno = annotations.find(a => a.id === e.currentTarget.dataset.annoId);
+          const anno = annotations.find(
+            (a) => a.id === e.currentTarget.dataset.annoId
+          );
           manifest = anno.partOf;
           target = anno.target;
 
@@ -42,7 +44,6 @@
         }
 
         function init() {
-
           annotations.forEach((anno) => {
             const li = document.createElement("li");
             const a = document.createElement("a");
@@ -60,7 +61,7 @@
           uv = UV.init("uv", {
             manifest: manifest,
             target: target,
-            embedded: true // needed for codesandbox frame
+            embedded: true, // needed for codesandbox frame
           });
 
           uv.on("load", () => {
@@ -83,8 +84,9 @@
 
         fetch(annotationsJson).then((res) => {
           const data = res.json().then((data) => {
-            annotations = data.annotations
-              .filter((anno) => anno.motivation === "framing");
+            annotations = data.annotations.filter(
+              (anno) => anno.motivation === "framing"
+            );
             init();
           });
         });
